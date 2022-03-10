@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestApp">
         <activity
+            android:name=".CounterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JokesActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
