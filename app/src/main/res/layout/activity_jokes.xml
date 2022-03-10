@@ -8,7 +8,7 @@
     tools:context=".JokesActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/fetchJokeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fetch a joke!"
@@ -20,13 +20,30 @@
         app:layout_constraintVertical_bias="0.877" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:id="@+id/joke"
+        android:layout_width="288dp"
+        android:layout_height="493dp"
         android:text="TODO: Use Jokes API to test HTTP requests"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/fetchJokeBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jokeCategory"
+        app:layout_constraintVertical_bias="0.793" />
+
+    <TextView
+        android:id="@+id/jokeCategory"
+        android:layout_width="288dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="40dp"
+        android:text="Category"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
