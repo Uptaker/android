@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var openCounter: Button
     private lateinit var openJokes: Button
+    private lateinit var openAccel: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,16 +18,23 @@ class MainActivity : AppCompatActivity() {
 
         openCounter = findViewById<Button>(R.id.openCounter)
         openJokes = findViewById<Button>(R.id.openJokes)
+        openAccel = findViewById<Button>(R.id.openAccelerometer)
         setListeners()
     }
 
     private fun setListeners() {
         openCounter.setOnClickListener { openCounterActivity() }
         openJokes.setOnClickListener { openJokesActivity() }
+        openAccel.setOnClickListener { openAcceleratorActivity() }
     }
 
     private fun openCounterActivity() {
         val intent = Intent(this, CounterActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openAcceleratorActivity() {
+        val intent = Intent(this, AcceleratorActivity::class.java)
         startActivity(intent)
     }
 
