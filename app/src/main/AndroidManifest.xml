@@ -3,6 +3,7 @@
     package="codes.drinky.testapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
 
     <application
         android:allowBackup="true"
