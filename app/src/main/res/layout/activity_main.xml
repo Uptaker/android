@@ -7,10 +7,10 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/openCounter"
+        android:id="@+id/openCamera"
         android:layout_width="100pt"
         android:layout_height="wrap_content"
-        android:text="Counter"
+        android:text="Take picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -19,36 +19,35 @@
         app:layout_constraintVertical_bias="0.252" />
 
     <Button
-        android:id="@+id/openJokes"
+        android:id="@+id/openGallery"
         android:layout_width="100pt"
-        android:layout_height="51dp"
-        android:text="Jokes"
+        android:layout_height="wrap_content"
+        android:text="select from gallery"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openCounter"
-        app:layout_constraintVertical_bias="0.03" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.379" />
 
     <Button
-        android:id="@+id/openAccelerometer"
+        android:id="@+id/openHistory"
         android:layout_width="100pt"
-        android:layout_height="51dp"
-        android:text="Accelerometer"
+        android:layout_height="wrap_content"
+        android:text="history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openJokes"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.808" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/heading_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Main Menu"
-        android:textSize="24sp"
+        android:text="μImgur"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

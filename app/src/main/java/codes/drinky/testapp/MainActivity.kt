@@ -7,39 +7,39 @@ import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var openCounter: Button
-    private lateinit var openJokes: Button
-    private lateinit var openAccel: Button
+    private lateinit var openHistory: Button
+    private lateinit var openCamera: Button
+    private lateinit var openGallery: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        openCounter = findViewById<Button>(R.id.openCounter)
-        openJokes = findViewById<Button>(R.id.openJokes)
-        openAccel = findViewById<Button>(R.id.openAccelerometer)
+        openHistory = findViewById<Button>(R.id.openHistory)
+        openCamera = findViewById<Button>(R.id.openCamera)
+        openGallery = findViewById<Button>(R.id.openGallery)
         setListeners()
     }
 
     private fun setListeners() {
-        openCounter.setOnClickListener { openCounterActivity() }
-        openJokes.setOnClickListener { openJokesActivity() }
-        openAccel.setOnClickListener { openAcceleratorActivity() }
+        openHistory.setOnClickListener { openHistoryActivity() }
+        openCamera.setOnClickListener { openCameraActivity() }
+        openGallery.setOnClickListener { openGalleryActivity() }
     }
 
-    private fun openCounterActivity() {
-        val intent = Intent(this, CounterActivity::class.java)
+    private fun openHistoryActivity() {
+        val intent = Intent(this, HistoryActivity::class.java)
         startActivity(intent)
     }
 
-    private fun openAcceleratorActivity() {
-        val intent = Intent(this, AcceleratorActivity::class.java)
+    private fun openGalleryActivity() {
+        val intent = Intent(this, ShareGalleryActivity::class.java)
         startActivity(intent)
     }
 
-    private fun openJokesActivity() {
-        val intent = Intent(this, JokesActivity::class.java)
+    private fun openCameraActivity() {
+        val intent = Intent(this, ShareCameraActivity::class.java)
         startActivity(intent)
     }
 
