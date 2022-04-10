@@ -19,8 +19,8 @@
 
     <Button
         android:id="@+id/openCamera"
-        android:layout_width="164dp"
-        android:layout_height="75dp"
+        android:layout_width="169dp"
+        android:layout_height="72dp"
         android:text="Take picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
