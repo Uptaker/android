@@ -6,49 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/uploadList"
+        android:layout_width="385dp"
+        android:layout_height="581dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106" />
+
     <Button
         android:id="@+id/openCamera"
-        android:layout_width="100pt"
-        android:layout_height="wrap_content"
+        android:layout_width="164dp"
+        android:layout_height="75dp"
         android:text="Take picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.252" />
+        app:layout_constraintVertical_bias="0.991" />
 
     <Button
         android:id="@+id/openGallery"
-        android:layout_width="100pt"
-        android:layout_height="wrap_content"
+        android:layout_width="169dp"
+        android:layout_height="72dp"
         android:text="select from gallery"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.379" />
+        app:layout_constraintVertical_bias="0.991" />
 
-    <Button
-        android:id="@+id/openHistory"
-        android:layout_width="100pt"
-        android:layout_height="wrap_content"
-        android:text="history"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.808" />
-
-    <TextView
-        android:id="@+id/heading_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="μImgur"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
