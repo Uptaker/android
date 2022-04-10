@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import codes.drinky.testapp.databinding.ActivityMainBinding
+import codes.drinky.testapp.helpers.ImageConversion
 import codes.drinky.testapp.model.Photo
 import codes.drinky.testapp.model.Upload
 import codes.drinky.testapp.model.Uploads
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun uploadImageToImgur(image: Bitmap) {
         var shareLink: String
-        getBase64Image(image, complete = { base64Image ->
+        ImageConversion().getBase64Image(image, complete = { base64Image ->
             GlobalScope.launch(Dispatchers.Default) {
                 val url = URL("https://api.imgur.com/3/image")
                 val boundary = "Boundary-${System.currentTimeMillis()}"
@@ -105,15 +106,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getBase64Image(image: Bitmap, complete: (String) -> Unit) {
-        GlobalScope.launch {
-            val outputStream = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            val b = outputStream.toByteArray()
-            complete(Base64.getEncoder().encodeToString(b))
-        }
-    }
-
     private suspend fun pushToHistoryAfterUpload(url: String) {
         withContext(Dispatchers.Main) {
             val capturedUpload = Upload(System.currentTimeMillis(), url)
@@ -129,16 +121,12 @@ class MainActivity : AppCompatActivity() {
 
     private val takePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
         if (isSuccess) {
-            uploadImageToImgur(uriToBitmap(latestTmpUri!!))
+            uploadImageToImgur(ImageConversion().uriToBitmap(latestTmpUri!!, this))
             Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    private fun uriToBitmap(uri: Uri): Bitmap {
-        return MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(uri.toString()))
     }
 
     private fun takeImage() {
@@ -155,7 +143,6 @@ class MainActivity : AppCompatActivity() {
             createNewFile()
             deleteOnExit()
         }
-
         return FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.fileprovider", tmpFile)
     }
 
