@@ -119,12 +119,12 @@ class MainActivity : AppCompatActivity() {
         return FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.fileprovider", tmpFile)
     }
 
-    private fun copyToClipboard(text: String) {
+    fun copyToClipboard(text: String) {
         val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("text", text)
         println("Clip data: $text")
         clipboardManager.setPrimaryClip(clipData)
-        Toast.makeText(this, "Success! Link copied to clipboard", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Link copied to clipboard!", Toast.LENGTH_SHORT).show()
     }
 
     private fun doUploadsExist() {
@@ -147,9 +147,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun remove(url: String, uploads: Uploads): Uploads {
-        uploads.uploads.removeIf { it.url == url }
-        return uploads
+    fun remove(url: String) {
+        this.uploads.uploads.removeIf { it.url == url }
+        parseJson()
     }
 
 }

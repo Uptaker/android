@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import codes.drinky.testapp.model.Upload
 import java.text.SimpleDateFormat
@@ -35,9 +36,23 @@ class UploadAdapter(private val context: Context, private val items: ArrayList<U
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val date: TextView = view.findViewById(R.id.tv_upload_date)
         val url: TextView = view.findViewById(R.id.tv_url)
+
+        init {
+            view.setOnLongClickListener {
+                val position: Int = adapterPosition
+                (context as MainActivity).remove(items[position].url)
+                Toast.makeText(context, "Upload deleted", Toast.LENGTH_SHORT).show()
+                true
+            }
+
+            view.setOnClickListener {
+                val position: Int = adapterPosition
+                (context as MainActivity).copyToClipboard(items[position].url)
+            }
+        }
     }
 
-    fun epochToDate(epoch: Long): String {
+    private fun epochToDate(epoch: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm")
         return sdf.format(Date(epoch))
     }
