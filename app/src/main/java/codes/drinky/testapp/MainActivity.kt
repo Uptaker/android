@@ -179,29 +179,6 @@ class MainActivity : AppCompatActivity() {
         return uploads
     }
 
-
-
-    private fun savePhoto(fileName: String, bmp: Bitmap): Boolean {
-        return try {
-            openFileOutput("$fileName.jpg", MODE_PRIVATE).use { stream ->
-                if (!bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                    throw IOException("Couldn't save bitmap")
-                }
-            }
-            true
-        } catch (e: IOException) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    private fun loadPhotosToRecyclerView() {
-        lifecycleScope.launch {
-            val photos = loadPhotos()
-            println(photos)
-        }
-    }
-
     private suspend fun loadPhotos(): List<Photo> {
         return withContext(Dispatchers.IO) {
             val files = filesDir.listFiles()
@@ -210,15 +187,6 @@ class MainActivity : AppCompatActivity() {
                 val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                 Photo(it.name, bmp)
             } ?: listOf()
-        }
-    }
-
-    private fun deletePhoto(fileName: String): Boolean {
-        return try {
-            deleteFile(fileName)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
         }
     }
 
