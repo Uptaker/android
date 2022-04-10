@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.*
 
-class ImageConversion {
+class ImageConversion(private val context: Context) {
+
     fun getBase64Image(image: Bitmap, complete: (String) -> Unit) {
         GlobalScope.launch {
             val outputStream = ByteArrayOutputStream()
@@ -19,7 +20,7 @@ class ImageConversion {
         }
     }
 
-    fun uriToBitmap(uri: Uri, context: Context): Bitmap {
+    fun uriToBitmap(uri: Uri): Bitmap {
         return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri.toString()))
     }
 }
