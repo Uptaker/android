@@ -10,6 +10,7 @@
         android:id="@+id/uploadList"
         android:layout_width="385dp"
         android:layout_height="581dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,5 +40,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.991" />
+
+    <TextView
+        android:id="@+id/noUploads"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No images uploaded"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/uploadList"
+        app:layout_constraintEnd_toEndOf="@+id/uploadList"
+        app:layout_constraintStart_toStartOf="@+id/uploadList"
+        app:layout_constraintTop_toTopOf="@+id/uploadList"
+        app:layout_constraintVertical_bias="0.189" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

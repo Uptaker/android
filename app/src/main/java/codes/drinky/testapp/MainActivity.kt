@@ -5,7 +5,9 @@ import android.content.ClipboardManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var uploads: Uploads
+    private lateinit var emptyTextView: TextView
+    private lateinit var uploadsView: RecyclerView
 
     private val fileManager = UploadsFileManager(this)
     private val imageConversion = ImageConversion(this)
@@ -41,8 +45,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        uploads = fileManager.getUploads()
+
         setContentView(binding.root)
+        emptyTextView = findViewById(R.id.noUploads)
+        uploadsView = findViewById(R.id.uploadList)
+
+        uploads = fileManager.getUploads()
         parseJson()
 
         findViewById<Button>(R.id.openCamera).setOnClickListener {
@@ -119,11 +127,18 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Success! Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
-
+    private fun doUploadsExist() {
+        println("test" + uploads.uploads)
+        if (uploads.uploads.isEmpty()) {
+            emptyTextView.visibility = View.VISIBLE
+        } else {
+            emptyTextView.visibility = View.GONE
+        }
+    }
 
     private fun parseJson() {
+        doUploadsExist()
         try {
-            val uploadsView: RecyclerView = findViewById(R.id.uploadList)
             uploadsView.layoutManager = LinearLayoutManager(this)
             val itemAdapter = UploadAdapter(this, uploads.uploads)
             uploadsView.adapter = itemAdapter
@@ -132,8 +147,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun remove(date: Long, uploads: Uploads): Uploads {
-        uploads.uploads.removeIf { it.uploadDate == date }
+    private fun remove(url: String, uploads: Uploads): Uploads {
+        uploads.uploads.removeIf { it.url == url }
         return uploads
     }
 
