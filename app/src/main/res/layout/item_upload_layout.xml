@@ -8,6 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
+    app:cardBackgroundColor="#9AD6E1"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
@@ -25,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:text="Upload date : "
+                android:text="Upload date: "
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -34,7 +35,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@android:color/black"
                 android:textSize="14sp"
                 tools:text="Upload date" />
         </LinearLayout>
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:text="Share link : "
+                android:text="Share link: "
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -57,7 +57,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@android:color/black"
                 android:textSize="14sp"
                 tools:text="Share link" />
         </LinearLayout>
