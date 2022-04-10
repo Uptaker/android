@@ -36,31 +36,43 @@ import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var uploads: Uploads
-
-    private lateinit var openCamera: Button
-    private lateinit var openGallery: Button
 
     private val fileManager = UploadsFileManager(this)
     private val imageConversion = ImageConversion(this)
-
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         uploads = fileManager.getUploads()
         setContentView(binding.root)
-
-        openCamera = findViewById(R.id.openCamera)
-        openGallery = findViewById(R.id.openGallery)
         parseJson()
 
-        openCamera.setOnClickListener {
-            takeImage()
-        }
-        openGallery.setOnClickListener { loadImageFromGallery.launch("image/*") }
+        findViewById<Button>(R.id.openCamera).setOnClickListener {
+            takeImage() }
 
+        findViewById<Button>(R.id.openGallery).setOnClickListener {
+            loadImageFromGallery.launch("image/*") }
+
+    }
+
+    private val loadImageFromCamera = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+        if (isSuccess) {
+            uploadImageToImgur(imageConversion.uriToBitmap(latestTmpUri!!))
+            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val loadImageFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        if (it != null) {
+            uploadImageToImgur(imageConversion.uriToBitmap(it))
+            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private val CLIENT_ID = BuildConfig.IMGUR_CLIENT_ID.toString()
@@ -98,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val response = httpsURLConnection.inputStream.bufferedReader()
-                    .use { it.readText() }  // defaults to UTF-8
+                    .use { it.readText() }
                 val jsonObject = JSONTokener(response).nextValue() as JSONObject
                 shareLink = jsonObject.getJSONObject("data").getString("link")
                 pushToHistoryAfterUpload(shareLink)
@@ -120,20 +132,11 @@ class MainActivity : AppCompatActivity() {
 
     private var latestTmpUri: Uri? = null
 
-    private val takePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
-        if (isSuccess) {
-            uploadImageToImgur(imageConversion.uriToBitmap(latestTmpUri!!))
-            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun takeImage() {
         lifecycleScope.launchWhenStarted {
             getTmpFileUri().let { uri ->
                 latestTmpUri = uri
-                takePhoto.launch(uri)
+                loadImageFromCamera.launch(uri)
             }
         }
     }
@@ -154,14 +157,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Success! Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
-    private val loadImageFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        if (it != null) {
-            uploadImageToImgur(imageConversion.uriToBitmap(it))
-            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
-        }
-    }
+
 
     private fun parseJson() {
         try {
