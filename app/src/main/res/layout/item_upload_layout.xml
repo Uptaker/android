@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    app:cardBackgroundColor="#D7E1EA"
+    app:cardBackgroundColor="#E8C99F"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
