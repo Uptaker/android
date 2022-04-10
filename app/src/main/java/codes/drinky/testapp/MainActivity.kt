@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import codes.drinky.testapp.databinding.ActivityMainBinding
 import codes.drinky.testapp.helpers.ImageConversion
+import codes.drinky.testapp.manager.UploadsFileManager
 import codes.drinky.testapp.model.Photo
 import codes.drinky.testapp.model.Upload
 import codes.drinky.testapp.model.Uploads
@@ -24,7 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.json.JSONException
@@ -32,7 +31,6 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.*
 import java.net.URL
-import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
 
@@ -43,12 +41,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var openCamera: Button
     private lateinit var openGallery: Button
 
+    private val fileManager = UploadsFileManager(this)
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        uploads = getUploads()
+        uploads = fileManager.getUploads()
         setContentView(binding.root)
 
         openCamera = findViewById(R.id.openCamera)
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             val capturedUpload = Upload(System.currentTimeMillis(), url)
             uploads.uploads.add(0, capturedUpload)
             parseJson()
-            writeToFile(UUID.randomUUID().toString(), Json.encodeToString(uploads))
+            fileManager.writeToFile(Json.encodeToString(uploads))
             copyToClipboard(url)
         }
 
@@ -174,35 +174,7 @@ class MainActivity : AppCompatActivity() {
         return uploads
     }
 
-    private fun writeToFile(fileName: String, content: String) {
-        val path = applicationContext.filesDir
-        val file = File(path, "uploads.json")
-        file.createNewFile()
-        FileOutputStream(file).use {
-            it.write(content.toByteArray())
-        }
-    }
 
-    private fun getUploads(): Uploads {
-        val uploadsJson = readFile()
-        println(uploadsJson)
-        return if (uploadsJson != null) {
-            Json.decodeFromString(uploadsJson)
-        } else {
-            Uploads(arrayListOf())
-        }
-    }
-
-    private fun readFile(): String? {
-        return try {
-            val file = File(applicationContext.filesDir, "uploads.json")
-            val contents = file.readText()
-            contents
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
 
     private fun savePhoto(fileName: String, bmp: Bitmap): Boolean {
         return try {
