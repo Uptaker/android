@@ -3,7 +3,6 @@ package codes.drinky.testapp
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import codes.drinky.testapp.databinding.ActivityMainBinding
 import codes.drinky.testapp.helpers.ImageConversion
 import codes.drinky.testapp.manager.UploadsFileManager
-import codes.drinky.testapp.model.Photo
 import codes.drinky.testapp.model.Upload
 import codes.drinky.testapp.model.Uploads
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private val fileManager = UploadsFileManager(this)
     private val imageConversion = ImageConversion(this)
+    private var latestTmpUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,8 +128,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    private var latestTmpUri: Uri? = null
 
     private fun takeImage() {
         lifecycleScope.launchWhenStarted {
