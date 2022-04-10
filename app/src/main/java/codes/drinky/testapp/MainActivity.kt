@@ -13,6 +13,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import codes.drinky.testapp.client.ImgurClient
 import codes.drinky.testapp.databinding.ActivityMainBinding
 import codes.drinky.testapp.helpers.ImageConversion
 import codes.drinky.testapp.manager.UploadsFileManager
@@ -25,11 +26,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.json.JSONException
-import org.json.JSONObject
-import org.json.JSONTokener
 import java.io.*
-import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 
 class MainActivity : AppCompatActivity() {
@@ -74,43 +71,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val CLIENT_ID = BuildConfig.IMGUR_CLIENT_ID.toString()
-
     private fun uploadImageToImgur(image: Bitmap) {
         var shareLink: String
         imageConversion.getBase64Image(image, complete = { base64Image ->
             GlobalScope.launch(Dispatchers.Default) {
-                val url = URL("https://api.imgur.com/3/image")
-                val boundary = "Boundary-${System.currentTimeMillis()}"
-
-                val httpsURLConnection =
-                    withContext(Dispatchers.IO) { url.openConnection() as HttpsURLConnection }
-                httpsURLConnection.setRequestProperty("Authorization", "Client-ID $CLIENT_ID")
-                httpsURLConnection.setRequestProperty(
-                    "Content-Type",
-                    "multipart/form-data; boundary=$boundary"
-                )
-
-                httpsURLConnection.requestMethod = "POST"
-                httpsURLConnection.doInput = true
-                httpsURLConnection.doOutput = true
-
-                var body = ""
-                body += "--$boundary\r\n"
-                body += "Content-Disposition:form-data; name=\"image\""
-                body += "\r\n\r\n$base64Image\r\n"
-                body += "--$boundary--\r\n"
-
-
-                val outputStreamWriter = OutputStreamWriter(httpsURLConnection.outputStream)
-                withContext(Dispatchers.IO) {
-                    outputStreamWriter.write(body)
-                    outputStreamWriter.flush()
-                }
-
-                val response = httpsURLConnection.inputStream.bufferedReader()
-                    .use { it.readText() }
-                val jsonObject = JSONTokener(response).nextValue() as JSONObject
+                val jsonObject = ImgurClient().upload(base64Image)
                 shareLink = jsonObject.getJSONObject("data").getString("link")
                 pushToHistoryAfterUpload(shareLink)
 
