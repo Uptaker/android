@@ -7,11 +7,13 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.FileOutputStream
 
-class UploadsFileManager(val context: Context) {
+class UploadsFileManager(private val context: Context) {
+
+    private val fileName = "uploads.json"
 
     private fun readFile(): String? {
         return try {
-            val file = File(context.filesDir, "uploads.json")
+            val file = File(context.filesDir, fileName)
             val contents = file.readText()
             contents
         } catch (e: Exception) {
@@ -22,7 +24,7 @@ class UploadsFileManager(val context: Context) {
 
     fun writeToFile(content: String) {
         val path = context.filesDir
-        val file = File(path, "uploads.json")
+        val file = File(path, fileName)
         file.createNewFile()
         FileOutputStream(file).use {
             it.write(content.toByteArray())
