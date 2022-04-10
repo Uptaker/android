@@ -175,15 +175,4 @@ class MainActivity : AppCompatActivity() {
         return uploads
     }
 
-    private suspend fun loadPhotos(): List<Photo> {
-        return withContext(Dispatchers.IO) {
-            val files = filesDir.listFiles()
-            files?.filter { it.canRead() && it.isFile && it.name.endsWith(".jpg") }?.map {
-                val bytes = it.readBytes()
-                val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                Photo(it.name, bmp)
-            } ?: listOf()
-        }
-    }
-
 }
