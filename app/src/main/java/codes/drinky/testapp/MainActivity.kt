@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var openGallery: Button
 
     private val fileManager = UploadsFileManager(this)
+    private val imageConversion = ImageConversion(this)
 
     private lateinit var binding: ActivityMainBinding
 
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun uploadImageToImgur(image: Bitmap) {
         var shareLink: String
-        ImageConversion().getBase64Image(image, complete = { base64Image ->
+        imageConversion.getBase64Image(image, complete = { base64Image ->
             GlobalScope.launch(Dispatchers.Default) {
                 val url = URL("https://api.imgur.com/3/image")
                 val boundary = "Boundary-${System.currentTimeMillis()}"
@@ -121,12 +122,11 @@ class MainActivity : AppCompatActivity() {
 
     private val takePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
         if (isSuccess) {
-            uploadImageToImgur(ImageConversion().uriToBitmap(latestTmpUri!!, this))
+            uploadImageToImgur(imageConversion.uriToBitmap(latestTmpUri!!))
             Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun takeImage() {
@@ -155,7 +155,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val loadImageFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        println(it)
+        if (it != null) {
+            uploadImageToImgur(imageConversion.uriToBitmap(it))
+            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Did not upload", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun parseJson() {
