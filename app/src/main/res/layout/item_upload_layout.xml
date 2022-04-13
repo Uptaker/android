@@ -11,9 +11,10 @@
     app:cardBackgroundColor="#E8C99F"
     app:cardCornerRadius="10dp">
 
+
     <LinearLayout
-        android:layout_width="375dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="12dp">
 
@@ -32,7 +33,7 @@
 
             <TextView
                 android:id="@+id/tv_upload_date"
-                android:layout_width="0dp"
+                android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
@@ -60,6 +61,25 @@
                 android:textSize="14sp"
                 tools:text="Share link" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:paddingTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="300dp"
+                tools:srcCompat="@tools:sample/avatars" />
+        </LinearLayout>
+
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

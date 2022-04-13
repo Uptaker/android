@@ -1,10 +1,14 @@
 package codes.drinky.testapp.client
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import codes.drinky.testapp.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.json.JSONTokener
+import java.io.InputStream
 import java.io.OutputStreamWriter
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
@@ -46,4 +50,13 @@ class ImgurClient {
         return JSONTokener(response).nextValue() as JSONObject
     }
 
+    fun fetchImage(imgUrl: String): Bitmap? {
+        return try {
+            val url = URL(imgUrl)
+            BitmapFactory.decodeStream(url.openConnection().getInputStream())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }
