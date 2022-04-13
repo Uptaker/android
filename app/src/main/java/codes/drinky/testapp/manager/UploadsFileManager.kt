@@ -33,7 +33,6 @@ class UploadsFileManager(private val context: Context) {
 
     fun getUploads(): Uploads {
         val uploadsJson = readFile()
-        println(uploadsJson)
         return if (uploadsJson != null) {
             Json.decodeFromString(uploadsJson)
         } else {

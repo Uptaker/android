@@ -124,13 +124,11 @@ class MainActivity : AppCompatActivity() {
     fun copyToClipboard(text: String) {
         val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("text", text)
-        println("Clip data: $text")
         clipboardManager.setPrimaryClip(clipData)
         Toast.makeText(this, "Link copied to clipboard!", Toast.LENGTH_SHORT).show()
     }
 
     private fun doUploadsExist() {
-        println("test" + uploads.uploads)
         if (uploads.uploads.isEmpty()) {
             emptyTextView.visibility = View.VISIBLE
         } else {
